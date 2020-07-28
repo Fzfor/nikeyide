@@ -1,6 +1,8 @@
 package com.jiayou.algorithms.sort;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * @author fzfor
@@ -8,10 +10,33 @@ import java.util.Arrays;
  */
 public class MergeSort {
     public static void main(String[] args) {
-        int[] arr = {1, 2, 4, 6, 7, 9, 4, 6, 8, 12, 14, 34};
-        System.out.println(Arrays.toString(arr));
-        merge(arr, 0, 5, arr.length - 1, new int[12]);
-        System.out.println(Arrays.toString(arr));
+        //int[] arr = {41, 12, 4, 5676, 7, 649, 4, 6, -908, 12, 23414, 34};
+        int[] arr = new int[80000];
+
+        for (int i = 0; i < 80000; i++) {
+            arr[i] = (int) (Math.random() * 8000000);
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date1 = new Date();
+        String dateStr1 = dateFormat.format(date1);
+        System.out.println("排序前的时间是"+dateStr1);
+
+        splitSort(arr,0,7999,new int[80000]);
+
+        Date date2 = new Date();
+        String dateStr2 = dateFormat.format(date2);
+        System.out.println("排序后的时间是"+dateStr2);
+    }
+
+    public static void splitSort(int[] arr,int left,int right,int[] temp){
+        if (left < right){
+            int mid = (left + right) / 2;
+
+            splitSort(arr,left,mid,temp);
+            splitSort(arr,(mid + 1),right,temp);
+            merge(arr,left,mid,right,temp);
+        }
     }
 
     /**
